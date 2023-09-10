@@ -1,26 +1,26 @@
 
-// taskGroups master list module object
-const taskGroupList = (() => {
-    let taskGroupListArray = [];
+// projects master list module object
+const projectList = (() => {
+    let projectListArray = [];
 
-    const add = (taskGroup) => {
-        taskGroupListArray.push(taskGroup);
+    const add = (project) => {
+        projectListArray.push(project);
     }
 
     const remove = (title) => {
         // array = [{title: "1", ...}, {title: "2", ...}, {title: "3"}], remove "1" object
-        taskGroupListArray = taskGroupListArray.filter((taskGroup) => {
-            return taskGroup.title !== title;
+        projectListArray = projectListArray.filter((project) => {
+            return project.title !== title;
         });
     }
 
     const info = () => {
         const titleStringArray = [];
-        taskGroupListArray.forEach(taskGroup => {
-            titleStringArray.push(taskGroup.title);
+        projectListArray.forEach(project => {
+            titleStringArray.push(project.title);
         })
 
-        console.log(taskGroupListArray);
+        console.log(projectListArray);
         return titleStringArray;
     }
 
@@ -28,8 +28,8 @@ const taskGroupList = (() => {
 })();
 
 
-// taskgroup factory object
-const taskGroup = (title) => {
+// project factory object
+const project = (title) => {
     const tasksList = [];
 
     const add = (title, details, dueDate, priority) => {
@@ -56,4 +56,4 @@ const task = (title, details, dueDate, priority) => {
     return { title, details, dueDate, priority, doneState }
 }
 
-export { taskGroupList, taskGroup, task };
+export { projectList, project, task };

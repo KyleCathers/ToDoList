@@ -32,21 +32,21 @@ function createAddTaskModal() {
 }
 
 
-function createAddTaskGroupModal() {
-    const addTaskGroupModal = document.createElement('dialog');
-    addTaskGroupModal.setAttribute('id', 'add-taskgroup-modal');
-    addTaskGroupModal.innerHTML =  `<div class="modalTitle">Add Task Group</div>
+function createAddProjectModal() {
+    const addProjectModal = document.createElement('dialog');
+    addProjectModal.setAttribute('id', 'add-project-modal');
+    addProjectModal.innerHTML =  `<div class="modalTitle">Add Project</div>
                                     <form method="dialog">
                                         <div class="dialogRow">
-                                            <label for="taskgroup-modal-title-input">Title:</label>
-                                            <input type="text" id="taskgroup-modal-title-input">
+                                            <label for="project-modal-title-input">Title:</label>
+                                            <input type="text" id="project-modal-title-input">
                                         </div>
                                         <div class="error"></div>
                                         <div class="dialogRow">
-                                            <button class="submitButton" id="taskgroup-modal-submit" type="submit">Submit</button>
+                                            <button class="submitButton" id="project-modal-submit" type="submit">Submit</button>
                                         </div>
                                     </form>`;
-    return addTaskGroupModal;
+    return addProjectModal;
 }
 
 function createAddNoteModal() {
@@ -84,8 +84,8 @@ function clearAddTaskModal() {
     priorityInput.value = "";
 }
 
-function clearAddTaskGroupModal() {
-    const titleInput = document.querySelector('#taskgroup-modal-title-input');
+function clearAddProjectModal() {
+    const titleInput = document.querySelector('#project-modal-title-input');
     titleInput.value = "";    
 }
 
@@ -97,5 +97,5 @@ function clearAddNoteModal() {
     detailsInput.value = "";
 }
 
-export { createAddTaskModal, clearAddTaskModal, createAddTaskGroupModal,
-         clearAddTaskGroupModal, createAddNoteModal, clearAddNoteModal }
+export { createAddTaskModal, clearAddTaskModal, createAddProjectModal,
+         clearAddProjectModal, createAddNoteModal, clearAddNoteModal }

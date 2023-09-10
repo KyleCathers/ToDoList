@@ -1,12 +1,12 @@
 import headerIcon from './images/checklist.png';
 import addIcon from './images/addIcon.png';
 
-import { createAddTaskModal, clearAddTaskModal, createAddTaskGroupModal,
-    clearAddTaskGroupModal, createAddNoteModal, clearAddNoteModal } from './modals.js'
+import { createAddTaskModal, clearAddTaskModal, createAddProjectModal,
+    clearAddProjectModal, createAddNoteModal, clearAddNoteModal } from './modals.js'
 
-import { addTask, addTaskGroup, addNote } from './add.js'
+import { addTask, addProject, addNote } from './add.js'
 
-import { taskGroupList, taskGroup, task } from './factories.js'
+import { projectList, project, task } from './factories.js'
 
 function pageInit() {
     // initialize page layout
@@ -56,8 +56,8 @@ function pageInit() {
     dueThisWeekTasks.setAttribute('class', 'click');
     dueThisWeekTasks.innerText = "Due This Week";
 
-    const customTasksGroup = document.createElement('div');
-    customTasksGroup.setAttribute('id', 'custom-tasks-group');
+    const customProject = document.createElement('div');
+    customProject.setAttribute('id', 'custom-project');
 
 
     const taskSection = document.createElement('div');
@@ -66,7 +66,7 @@ function pageInit() {
     taskSection.appendChild(homeTask);
     taskSection.appendChild(dueTodayTasks);
     taskSection.appendChild(dueThisWeekTasks);
-    taskSection.appendChild(customTasksGroup);
+    taskSection.appendChild(customProject);
 
     const noteSection = document.createElement('div');
     noteSection.setAttribute('id', 'note-section');
@@ -75,21 +75,21 @@ function pageInit() {
     const addSection = document.createElement('div');
     addSection.setAttribute('id', 'add-section');
 
-    // add task group button
-    const addTaskGroupDiv = document.createElement('div');
-    addTaskGroupDiv.setAttribute('id', 'add-taskgroup');
+    // add project button
+    const addProjectDiv = document.createElement('div');
+    addProjectDiv.setAttribute('id', 'add-project');
 
-    const addTaskGroupButton = new Image();
-    addTaskGroupButton.setAttribute('id', 'add-taskgroup-button');
-    addTaskGroupButton.setAttribute('class', 'click');
-    addTaskGroupButton.src = addIcon;
+    const addProjectButton = new Image();
+    addProjectButton.setAttribute('id', 'add-project-button');
+    addProjectButton.setAttribute('class', 'click');
+    addProjectButton.src = addIcon;
 
-    const addTaskGroupText = document.createElement('div');
-    addTaskGroupText.setAttribute('id', 'add-taskgroup-text');
-    addTaskGroupText.innerText = "Add Task Group";
+    const addProjectText = document.createElement('div');
+    addProjectText.setAttribute('id', 'add-project-text');
+    addProjectText.innerText = "Add Project";
 
-    addTaskGroupDiv.appendChild(addTaskGroupButton);
-    addTaskGroupDiv.appendChild(addTaskGroupText);
+    addProjectDiv.appendChild(addProjectButton);
+    addProjectDiv.appendChild(addProjectText);
 
     // add task button
     const addTaskDiv = document.createElement('div');
@@ -123,7 +123,7 @@ function pageInit() {
     addNoteDiv.appendChild(addNoteButton);
     addNoteDiv.appendChild(addNoteText);
 
-    addSection.appendChild(addTaskGroupDiv);
+    addSection.appendChild(addProjectDiv);
     addSection.appendChild(addTaskDiv);
     addSection.appendChild(addNoteDiv);
 
@@ -143,11 +143,11 @@ function pageInit() {
     container.appendChild(main);
 
     const addTaskModal = createAddTaskModal()
-    const addTaskGroupModal = createAddTaskGroupModal();
+    const addProjectModal = createAddProjectModal();
     const addNoteModal = createAddNoteModal();
 
     container.appendChild(addTaskModal);
-    container.appendChild(addTaskGroupModal);
+    container.appendChild(addProjectModal);
     container.appendChild(addNoteModal);
 
     // add listeners to buttons
@@ -159,12 +159,12 @@ function pageInit() {
         addTaskSubmitButton.addEventListener('click', addTask);
     })
 
-    addTaskGroupButton.addEventListener('click', () => {
-        addTaskGroupModal.showModal();
-        clearAddTaskGroupModal();
+    addProjectButton.addEventListener('click', () => {
+        addProjectModal.showModal();
+        clearAddProjectModal();
 
-        const addTaskGroupSubmitButton = document.querySelector('#taskgroup-modal-submit');
-        addTaskGroupSubmitButton.addEventListener('click', addTaskGroup);
+        const addProjectSubmitButton = document.querySelector('#project-modal-submit');
+        addProjectSubmitButton.addEventListener('click', addProject);
     });
 
     addNoteButton.addEventListener('click', () => {
