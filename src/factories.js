@@ -3,28 +3,41 @@
 const projectList = (() => {
     let projectListArray = [];
 
-    const add = (project) => {
+    // add new project
+    const addProject = (project) => {
         projectListArray.push(project);
     }
 
-    const remove = (title) => {
+    // remove specified project
+    const removeProject = (title) => {
+        console.log(`removing: ${title} project`);
         // array = [{title: "1", ...}, {title: "2", ...}, {title: "3"}], remove "1" object
         projectListArray = projectListArray.filter((project) => {
-            return project.title !== title;
+            return project.title != title;
         });
     }
 
+    // returns titles of each project in an array
     const info = () => {
-        const titleStringArray = [];
+        const projectTitlesArray = [];
         projectListArray.forEach(project => {
-            titleStringArray.push(project.title);
+            projectTitlesArray.push(project.title);
         })
 
-        console.log(projectListArray);
-        return titleStringArray;
+        return projectTitlesArray;
     }
 
-    return { add, remove, info }
+    // returns project object of specified title from list
+    const getProject = (title) => {
+        let targetProject = projectListArray.find((project) => {
+            return project.title == title;
+        });
+        return targetProject;
+    }
+
+    const getArray = () => projectListArray;
+
+    return { addProject, removeProject, info, getProject, getArray }
 })();
 
 
@@ -32,28 +45,37 @@ const projectList = (() => {
 const project = (title) => {
     const tasksList = [];
 
-    const add = (title, details, dueDate, priority) => {
+    const addTask = (title, details, dueDate, priority) => {
         tasksList.push(task(title, details, dueDate, priority))
     }
 
-    const remove = (title) => {
-
+    const removeTask = (title) => {
+        tasksList = tasksList.filter((task) => {
+            return task.title != title;
+        });
     }
 
-    const edit = () => {
-
+    const getTask = (title) => {
+        let targetTask = tasksList.find((task) => {
+            return task.title == title;
+        });
+        return targetTask;
     }
 
-    const toggleDone = () => {
-        
-    }
+    const getTaskObjects = () => tasksList;
 
-    return { add, remove, edit, toggleDone, title }
+    return { addTask, removeTask, getTask, getTaskObjects, title }
 }
 
 // task factory object
 const task = (title, details, dueDate, priority) => {
-    return { title, details, dueDate, priority, doneState }
+    let doneState = false;
+
+    const changeDoneState = () => {
+        doneState != doneState;
+    }
+
+    return { title, details, dueDate, priority, changeDoneState, doneState }
 }
 
 export { projectList, project, task };
