@@ -1,5 +1,7 @@
 import './style.css';
 
-import { pageInit } from './container.js';
+import { pageInit, updateContent } from './container.js';
 
 document.body.appendChild(pageInit());
+
+updateContent();

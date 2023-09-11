@@ -1,5 +1,5 @@
 :root {
-    --menu-width: 400px;
+    --menu-width: 300px;
 }
 
 html,
@@ -45,11 +45,6 @@ body {
     font-size: 2rem;
 }
 
-#main-content {
-    height: 100%;
-    width: calc(100vw - var(--menu-width));
-}
-
 #header-logo {
     display: flex;
     height: 100%;
@@ -89,6 +84,7 @@ body {
     height: 65px;
 }
 
+#task-info-modal,
 #add-task-modal,
 #add-project-modal,
 #add-note-modal {
@@ -105,7 +101,6 @@ body {
 
 .dialogRow {
     display: flex;
-    padding-bottom: 30px;
     gap: 10px;
     justify-content: center;
 }
@@ -135,8 +130,18 @@ button {
     flex-direction: column;
 }
 
-.delete {
-    height: 30px;
+.delete,
+.edit {
+    height: 35px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.button-container {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
 }
 
 .custom-project-item {
@@ -153,6 +158,144 @@ button {
 }
 
 .click:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
     padding-right: 5px;
+}
+
+
+#main-content {
+    height: 100%;
+    width: calc(100vw - var(--menu-width));
+    box-sizing: border-box;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#main-content-title {
+    font-size: 2rem;
+}
+
+.task {
+    width: 100%;
+    border-radius: 15px;
+    border: solid black 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 20px;
+    box-sizing: border-box;
+    transition: all .2s ease-in-out;
+    font-size: 1.3rem;
+}
+
+.High {
+    background-color: #ffbfbf;
+}
+
+.Medium {
+    background-color: #bfccff;
+}
+
+.Low {
+    background-color: #bfffc6;
+}
+
+
+.task:hover {
+    transform: scale(1.01);
+}
+
+.task-title {
+    font-weight: bold;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+.task-title:hover {
+    transform: scale(1.2);
+}
+
+.task-done-state {
+    cursor: pointer;
+    padding: 0px 10px 0px 10px;
+    transition: all .2s ease-in-out;
+    width: 82px;
+}
+
+.task-done-state:hover {
+    transform: scale(1.1);
+}
+
+.task-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.error {
+    color: red;
+    font-size: 1.5rem;
+}
+
+.error:after {
+    content: " ";
+    white-space: pre;
+}
+
+#current-task-info-modal {
+    width: 500px;
+    border: solid #002aff 5px;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    padding-top: 0px;
+    padding-right: 10px;
+}
+
+#current-task-info-modal form {
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.title-row {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+#task-info-modal-title {
+    font-size: 3rem;
+    padding-top: 20px;
+}
+
+#exit-button {
+    cursor: pointer;
+    padding-top: 10px;
+    height: 30px;
+    transition: all .2s ease-in-out;
+}
+
+#exit-button:hover {
+    transform: scale(1.2);
+}
+
+#exit-button-container {
+    background-color: white;
+    width: auto;
+}
+
+input {
+    padding-left: 8px;
+    border-radius: 10px;
+    color: #484848;
 }

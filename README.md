@@ -1,11 +1,6 @@
 # ToDoList
 To Do List Project from TOP
 
-NEXT TO DO:
-MODAL FORM VALIDATION
-CSS FOR TASKS AND MENU CONTENT
-
-
 Work to do:
 Add task button:
 	Find currently selected task group, default home

@@ -43,7 +43,7 @@ const projectList = (() => {
 
 // project factory object
 const project = (title) => {
-    const tasksList = [];
+    let tasksList = [];
 
     const addTask = (title, details, dueDate, priority) => {
         tasksList.push(task(title, details, dueDate, priority))
@@ -71,11 +71,7 @@ const project = (title) => {
 const task = (title, details, dueDate, priority) => {
     let doneState = false;
 
-    const changeDoneState = () => {
-        doneState != doneState;
-    }
-
-    return { title, details, dueDate, priority, changeDoneState, doneState }
+    return { title, details, dueDate, priority, doneState }
 }
 
 export { projectList, project, task };
