@@ -47,7 +47,7 @@ function pageInit() {
     homeTask.setAttribute('class', 'click');
     homeTask.innerText = "Home";
     homeTask.addEventListener('click', () => {
-        selectedProject = 'Home';
+        selectedProject = 'home';
         console.log(selectedProject);
         updateMenu();
     })
@@ -292,9 +292,18 @@ function updateMenu() {
 function updateContent() {
     console.log(selectedProject);
 
-    // if home task, go through all projects and add to DOM, otherwise only selected project
+    // TODO: if home project, go through all projects and add to DOM, otherwise only selected project
+
+    // TODO: if 'due today' project, filter home project by date and update
+    // TODO: if 'due this week' project, filter home project by date and update
+
+    const mainContentTitle = document.createElement('div');
+    mainContentTitle.setAttribute('id', `main-content-title`);
+    mainContentTitle.innerText = selectedProject;
 
     const mainContent = document.querySelector('#main-content');
+    mainContent.innerHTML = "";
+    mainContent.appendChild(mainContentTitle);
 
     // go into currently selected project of project list array
     let targetProject = projectList.getProject(selectedProject);
@@ -308,27 +317,27 @@ function updateContent() {
         // (title, details, dueDate, priority, doneState)
         const taskTitle = document.createElement('div');
         taskTitle.setAttribute('class', 'task-title');
-        //taskTitle.setAttribute('id', task.title);
+        taskTitle.setAttribute('id', `${task.title}-title`);
         taskTitle.innerText = task.title;
 
         const taskDetails = document.createElement('div');
         taskDetails.setAttribute('class', 'task-details');
-        //taskDetails.setAttribute('id', task.details);
+        taskDetails.setAttribute('id', `${task.title}-details`);
         taskDetails.innerText = task.details;
 
         const taskDueDate = document.createElement('div');
         taskDueDate.setAttribute('class', 'task-due-date');
-        //taskDueDate.setAttribute('id', task.dueDate);
+        taskDueDate.setAttribute('id', `${task.title}-due-date`);
         taskDueDate.innerText = task.dueDate;
 
         const taskPriority = document.createElement('div');
         taskPriority.setAttribute('class', 'task-priority');
-        //taskPriority.setAttribute('id', task.priority);
+        taskPriority.setAttribute('id', `${task.title}-priority`);
         taskPriority.innerText = task.priority;
 
         const taskDoneState = document.createElement('div');
         taskDoneState.setAttribute('class', 'task-done-state');
-        //taskDoneState.setAttribute('id', task.doneState);
+        taskDoneState.setAttribute('id', `${task.title}-done-state`);
         taskDoneState.innerText = task.doneState;
 
         currentTask.append(taskTitle);
