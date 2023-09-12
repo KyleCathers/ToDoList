@@ -3,33 +3,109 @@ import exitModal from './images/exitButton.png'
 function createAddTaskModal() {
     const addTaskModal = document.createElement('dialog');
     addTaskModal.setAttribute('id', 'add-task-modal');
-    addTaskModal.innerHTML =   `<div class="modalTitle">Add Task</div>
-                                <form method="dialog" id='add-task-form'>
-                                    <div class="dialogRow">
-                                        <label for="task-modal-title-input">Title:</label>
-                                        <input type="text" id="task-modal-title-input">
-                                    </div>
-                                    <div class="dialogRow">
-                                        <label for="task-modal-details-input">Details:</label>
-                                        <input type="text" id="task-modal-details-input">
-                                    </div>
-                                    <div class="dialogRow">
-                                        <label for="task-modal-duedate-input">Due Date:</label>
-                                        <input type="date" value="2023-09-08" id="task-modal-duedate-input">
-                                    </div>
-                                    <div class="dialogRow">
-                                        <label for="task-modal-priority-input">Priority:</label>
-                                        <select name="priority" id="task-modal-priority-input">
-                                            <option value="High">High</option>
-                                            <option value="Medium">Medium</option>
-                                            <option value="Low">Low</option>
-                                        </select>
-                                    </div>
-                                    <div class="error"></div>
-                                    <div class="dialogRow">
-                                        <button class="submitButton" id="task-modal-submit" type="submit">Submit</button>
-                                    </div>
-                                </form>`;
+
+    const title = document.createElement('div');
+    title.setAttribute('class', 'modalTitle');
+    title.innerText = "Add Task";
+
+    const form = document.createElement('form');
+    form.setAttribute('method', 'dialog');
+    form.setAttribute('id', 'add-task-form');
+
+    const titleRow = document.createElement('div');
+    titleRow.setAttribute('class', 'dialogRow');
+
+    const titleLabel = document.createElement('label');
+    titleLabel.setAttribute('for', 'task-modal-title-input');
+    titleLabel.innerText = 'Title:';
+
+    const titleInput = document.createElement('input');
+    titleInput.setAttribute('id', 'task-modal-title-input');
+    titleInput.setAttribute('type', 'text');
+
+    titleRow.appendChild(titleLabel);
+    titleRow.appendChild(titleInput);
+
+    const detailsRow = document.createElement('div');
+    detailsRow.setAttribute('class', 'dialogRow');
+
+    const detailsLabel = document.createElement('label');
+    detailsLabel.setAttribute('for', 'task-modal-details-input');
+    detailsLabel.innerText = 'Details:';
+
+    const detailsInput = document.createElement('input');
+    detailsInput.setAttribute('id', 'task-modal-details-input');
+    detailsInput.setAttribute('type', 'text');
+
+    detailsRow.appendChild(detailsLabel);
+    detailsRow.appendChild(detailsInput);
+
+    const dueDateRow = document.createElement('div');
+    dueDateRow.setAttribute('class', 'dialogRow');
+
+    const dueDateLabel = document.createElement('label');
+    dueDateLabel.setAttribute('for', 'task-modal-duedate-input');
+    dueDateLabel.innerText = 'Due Date:';
+
+    const dueDateInput = document.createElement('input');
+    dueDateInput.setAttribute('id', 'task-modal-duedate-input');
+    dueDateInput.setAttribute('type', 'date');
+
+    dueDateRow.appendChild(dueDateLabel);
+    dueDateRow.appendChild(dueDateInput);
+
+    const priorityRow = document.createElement('div');
+    priorityRow.setAttribute('class', 'dialogRow');
+
+    const priorityLabel = document.createElement('label');
+    priorityLabel.setAttribute('for', 'task-modal-priority-input');
+    priorityLabel.innerText = 'Priority:';
+
+    const priorityInput = document.createElement('select');
+    priorityInput.setAttribute('id', 'task-modal-priority-input');
+    priorityInput.setAttribute('name', 'priority');
+
+    const highOption = document.createElement('option');
+    highOption.setAttribute('value', 'High');
+    highOption.innerText = "High";
+
+    const mediumOption = document.createElement('option');
+    mediumOption.setAttribute('value', 'Medium');
+    mediumOption.innerText = "Medium";
+
+    const lowOption = document.createElement('option');
+    lowOption.setAttribute('value', 'Low');
+    lowOption.innerText = "Low";
+
+    priorityInput.appendChild(highOption);
+    priorityInput.appendChild(mediumOption);
+    priorityInput.appendChild(lowOption);
+
+    priorityRow.appendChild(priorityLabel);
+    priorityRow.appendChild(priorityInput);
+
+    const error = document.createElement('div');
+    error.setAttribute('class', 'error');
+
+    const submitRow = document.createElement('div');
+    submitRow.setAttribute('class', 'dialogRow');
+
+    const submitButton = document.createElement('button');
+    submitButton.setAttribute('class', 'submitButton');
+    submitButton.setAttribute('id', 'task-modal-submit');
+    submitButton.setAttribute('type', 'submit');
+    submitButton.innerHTML = "submit";
+    submitRow.appendChild(submitButton);
+
+    form.appendChild(titleRow);
+    form.appendChild(detailsRow);
+    form.appendChild(dueDateRow);
+    form.appendChild(priorityRow);
+    form.appendChild(error);
+    form.appendChild(submitRow);
+
+    addTaskModal.appendChild(title);
+    addTaskModal.appendChild(form);
 
     
     return addTaskModal;
@@ -145,85 +221,160 @@ function createTaskInfoModal(task) {
     return container;
 }
 
-function createAddNoteModal() {
-    const addNoteModal = document.createElement('dialog');
-    addNoteModal.setAttribute('id', 'add-note-modal');
-    addNoteModal.innerHTML =  `<div class="modalTitle">Add Note</div>
-                                    <form method="dialog" id='add-note-form'>
-                                        <div class="dialogRow">
-                                            <label for="note-modal-title-input">Title:</label>
-                                            <input type="text" id="note-modal-title-input">
-                                        </div>
-                                        <div class="dialogRow">
-                                            <label for="note-modal-details-input">Details:</label>
-                                            <input type="text" id="note-modal-details-input">
-                                        </div>
-                                        <div class="error"></div>
-                                        <div class="dialogRow">
-                                            <button class="submitButton" id="note-modal-submit" type="submit">Submit</button>
-                                        </div>
-                                    </form>`;
-    return addNoteModal;
-}
-
 function clearModals() {
-    const taskTitleInput = document.querySelector('#task-modal-title-input');
-    taskTitleInput.value = "";
-
-    const taskDetailsInput = document.querySelector('#task-modal-details-input');
-    taskDetailsInput.value = "";
-
-    const taskDueDateInput = document.querySelector('#task-modal-duedate-input');
-    taskDueDateInput.value = "2023-09-11"; //YYYY-MM-DD
-
-    const taskPriorityInput = document.querySelector('#task-modal-priority-input');
-    taskPriorityInput.value = "High";
-
+    // add project modal
     const projectTitleInput = document.querySelector('#project-modal-title-input');
     projectTitleInput.value = "";    
 
-    const noteTitleInput = document.querySelector('#note-modal-title-input');
-    noteTitleInput.value = "";
 
-    const noteDetailsInput = document.querySelector('#note-modal-details-input');
-    noteDetailsInput.value = "";
+    // add task modal
+    const addTaskTitleInput = document.querySelector('#task-modal-title-input');
+    addTaskTitleInput.value = "";
+
+    const addTaskDetailsInput = document.querySelector('#task-modal-details-input');
+    addTaskDetailsInput.value = "";
+
+    const addTaskDueDateInput = document.querySelector('#task-modal-duedate-input');
+    addTaskDueDateInput.value = "2023-09-11"; //YYYY-MM-DD
+
+    const addTaskPriorityInput = document.querySelector('#task-modal-priority-input');
+    addTaskPriorityInput.value = "Low";
+
+    // edit task modal
+    const editTaskTitleInput = document.querySelector('#edit-task-modal-title-input');
+    editTaskTitleInput.value = "";
+
+    const editTaskDetailsInput = document.querySelector('#edit-task-modal-details-input');
+    editTaskDetailsInput.value = "";
+
+    const editTaskDueDateInput = document.querySelector('#edit-task-modal-duedate-input');
+    editTaskDueDateInput.value = "2023-09-11"; //YYYY-MM-DD
+
+    const editTaskPriorityInput = document.querySelector('#edit-task-modal-priority-input');
+    editTaskPriorityInput.value = "Low";
+
+    const editTaskDoneStateInput = document.querySelector('#edit-task-modal-priority-input');
+    editTaskDoneStateInput.checked = 'false';
 }
 
 function createEditTaskModal() {
     const editTaskModal = document.createElement('dialog');
     editTaskModal.setAttribute('id', 'edit-task-modal');
-    editTaskModal.innerHTML =   `<div class="modalTitle">Edit Task</div>
-                                <form method="dialog" id='edit-task-form'>
-                                    <div class="dialogRow">
-                                        <label for="edit-task-modal-title-input">Title:</label>
-                                        <input type="text" id="edit-task-modal-title-input">
-                                    </div>
-                                    <div class="dialogRow">
-                                        <label for="edit-task-modal-details-input">Details:</label>
-                                        <input type="text" id="edit-task-modal-details-input">
-                                    </div>
-                                    <div class="dialogRow">
-                                        <label for="edit-task-modal-duedate-input">Due Date:</label>
-                                        <input type="date" value="2023-09-08" id="edit-task-modal-duedate-input">
-                                    </div>
-                                    <div class="dialogRow">
-                                        <label for="edit-task-modal-priority-input">Priority:</label>
-                                        <select name="priority" id="edit-task-modal-priority-input">
-                                            <option value="High">High</option>
-                                            <option value="Medium">Medium</option>
-                                            <option value="Low">Low</option>
-                                        </select>
-                                        <label for="edit-task-modal-done-state-input">Done?</label>
-                                        <input type="checkbox" id="edit-task-modal-done-state-input">
-                                    </div>
-                                    <div class="error"></div>
-                                    <div class="dialogRow">
-                                        <button class="submitButton" id="edit-task-modal-submit" type="submit">Submit</button>
-                                    </div>
-                                </form>`;
 
-    
+    const title = document.createElement('div');
+    title.setAttribute('class', 'modalTitle');
+    title.innerText = "Edit Task";
+
+    const form = document.createElement('form');
+    form.setAttribute('method', 'dialog');
+    form.setAttribute('id', 'edit-task-form');
+
+    const titleRow = document.createElement('div');
+    titleRow.setAttribute('class', 'dialogRow');
+
+    const titleLabel = document.createElement('label');
+    titleLabel.setAttribute('for', 'edit-task-modal-title-input');
+    titleLabel.innerText = 'Title:';
+
+    const titleInput = document.createElement('input');
+    titleInput.setAttribute('id', 'edit-task-modal-title-input');
+    titleInput.setAttribute('type', 'text');
+
+    titleRow.appendChild(titleLabel);
+    titleRow.appendChild(titleInput);
+
+    const detailsRow = document.createElement('div');
+    detailsRow.setAttribute('class', 'dialogRow');
+
+    const detailsLabel = document.createElement('label');
+    detailsLabel.setAttribute('for', 'edit-task-modal-details-input');
+    detailsLabel.innerText = 'Details:';
+
+    const detailsInput = document.createElement('input');
+    detailsInput.setAttribute('id', 'edit-task-modal-details-input');
+    detailsInput.setAttribute('type', 'text');
+
+    detailsRow.appendChild(detailsLabel);
+    detailsRow.appendChild(detailsInput);
+
+    const dueDateRow = document.createElement('div');
+    dueDateRow.setAttribute('class', 'dialogRow');
+
+    const dueDateLabel = document.createElement('label');
+    dueDateLabel.setAttribute('for', 'edit-task-modal-duedate-input');
+    dueDateLabel.innerText = 'Due Date:';
+
+    const dueDateInput = document.createElement('input');
+    dueDateInput.setAttribute('id', 'edit-task-modal-duedate-input');
+    dueDateInput.setAttribute('type', 'date');
+
+    dueDateRow.appendChild(dueDateLabel);
+    dueDateRow.appendChild(dueDateInput);
+
+    const priorityRow = document.createElement('div');
+    priorityRow.setAttribute('class', 'dialogRow');
+
+    const priorityLabel = document.createElement('label');
+    priorityLabel.setAttribute('for', 'edit-task-modal-priority-input');
+    priorityLabel.innerText = 'Priority:';
+
+    const priorityInput = document.createElement('select');
+    priorityInput.setAttribute('id', 'edit-task-modal-priority-input');
+    priorityInput.setAttribute('name', 'priority');
+
+    const highOption = document.createElement('option');
+    highOption.setAttribute('value', 'High');
+    highOption.innerText = "High";
+
+    const mediumOption = document.createElement('option');
+    mediumOption.setAttribute('value', 'Medium');
+    mediumOption.innerText = "Medium";
+
+    const lowOption = document.createElement('option');
+    lowOption.setAttribute('value', 'Low');
+    lowOption.innerText = "Low";
+
+    priorityInput.appendChild(highOption);
+    priorityInput.appendChild(mediumOption);
+    priorityInput.appendChild(lowOption);
+
+    const doneStateLabel = document.createElement('label');
+    doneStateLabel.setAttribute('for', 'edit-task-modal-done-state-input');
+    doneStateLabel.innerText = "Done?";
+
+    const doneStateInput = document.createElement('input');
+    doneStateInput.setAttribute('id', 'edit-task-modal-done-state-input');
+    doneStateInput.setAttribute('type', 'checkbox');
+
+    priorityRow.appendChild(priorityLabel);
+    priorityRow.appendChild(priorityInput);
+    priorityRow.appendChild(doneStateLabel);
+    priorityRow.appendChild(doneStateInput);
+
+    const error = document.createElement('div');
+    error.setAttribute('class', 'error');
+
+    const submitRow = document.createElement('div');
+    submitRow.setAttribute('class', 'dialogRow');
+
+    const submitButton = document.createElement('button');
+    submitButton.setAttribute('class', 'submitButton');
+    submitButton.setAttribute('id', 'edit-task-modal-submit');
+    submitButton.setAttribute('type', 'submit');
+    submitButton.innerHTML = "submit";
+    submitRow.appendChild(submitButton);
+
+    form.appendChild(titleRow);
+    form.appendChild(detailsRow);
+    form.appendChild(dueDateRow);
+    form.appendChild(priorityRow);
+    form.appendChild(error);
+    form.appendChild(submitRow);
+
+    editTaskModal.appendChild(title);
+    editTaskModal.appendChild(form);
+
     return editTaskModal;
 }
 
-export { createAddTaskModal, clearModals, createAddProjectModal, createAddNoteModal, createTaskInfoModal, createEditTaskModal }
+export { createAddTaskModal, clearModals, createAddProjectModal, createTaskInfoModal, createEditTaskModal }

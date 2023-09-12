@@ -1,4 +1,3 @@
-
 // projects master list module object
 const projectList = (() => {
     let projectListArray = [];

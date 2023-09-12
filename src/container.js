@@ -3,8 +3,7 @@ import addIcon from './images/addIcon.png';
 import deleteIcon from './images/deleteIcon.png'
 import editIcon from './images/editIcon.png'
 
-import { createAddTaskModal, clearModals, createAddProjectModal,
-     createAddNoteModal, createTaskInfoModal, createEditTaskModal } from './modals.js'
+import { createAddTaskModal, clearModals, createAddProjectModal, createTaskInfoModal, createEditTaskModal } from './modals.js'
 
 import { projectList, project, task } from './factories.js'
 
@@ -92,16 +91,6 @@ function pageInit() {
     taskSection.appendChild(dueThisWeekTasks);
     taskSection.appendChild(customProject);
 
-    const noteSection = document.createElement('div');
-    noteSection.setAttribute('id', 'note-section');
-    noteSection.innerText = "Notes";
-
-    /* ~~~~~~~~~~~~~~~~~~~~ REMOVE LATER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-    noteSection.addEventListener('click', () => {
-        console.log(projectList.getArray());
-        updateContent();
-    });
-
     const addSection = document.createElement('div');
     addSection.setAttribute('id', 'add-section');
 
@@ -137,28 +126,10 @@ function pageInit() {
     addTaskDiv.appendChild(addTaskButton);
     addTaskDiv.appendChild(addTaskText);
 
-    // add note button
-    const addNoteDiv = document.createElement('div');
-    addNoteDiv.setAttribute('id', 'add-note');
-
-    const addNoteButton = new Image();
-    addNoteButton.setAttribute('id', 'add-note-button');
-    addNoteButton.setAttribute('class', 'click');
-    addNoteButton.src = addIcon;
-
-    const addNoteText = document.createElement('div');
-    addNoteText.setAttribute('id', 'add-note-text');
-    addNoteText.innerText = "Add Note";
-
-    addNoteDiv.appendChild(addNoteButton);
-    addNoteDiv.appendChild(addNoteText);
-
     addSection.appendChild(addProjectDiv);
     addSection.appendChild(addTaskDiv);
-    addSection.appendChild(addNoteDiv);
 
     menuTopSection.appendChild(taskSection);
-    menuTopSection.appendChild(noteSection);
 
     menu.appendChild(menuTopSection);
     menu.appendChild(addSection);
@@ -174,12 +145,10 @@ function pageInit() {
 
     const addTaskModal = createAddTaskModal()
     const addProjectModal = createAddProjectModal();
-    const addNoteModal = createAddNoteModal();
 
     container.appendChild(currentTaskInfoModal);
     container.appendChild(addTaskModal);
     container.appendChild(addProjectModal);
-    container.appendChild(addNoteModal);
     container.appendChild(editTaskModal);
 
     // add listeners to buttons
@@ -197,14 +166,6 @@ function pageInit() {
 
         const addProjectSubmitButton = document.querySelector('#project-modal-submit');
         addProjectSubmitButton.addEventListener('click', addProject);
-    });
-
-    addNoteButton.addEventListener('click', () => {
-        addNoteModal.showModal();
-        clearModals();
-
-        const addNoteSubmitButton = document.querySelector('#note-modal-submit');
-        addNoteSubmitButton.addEventListener('click', addNote);    
     });
 
     // add Home project
@@ -248,15 +209,6 @@ function addProject() {
 
     // refresh menu DOM since new project is added
     updateMenu();
-}
-
-// add note, to do later ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function addNote() {
-    const titleInput = document.querySelector('#note-modal-title-input');
-    console.log(titleInput.value);
-
-    const detailsInput = document.querySelector('#note-modal-details-input');
-    console.log(detailsInput.value);
 }
 
 // update menu with custom project
@@ -427,8 +379,7 @@ function editTask() {
     currentTaskObject.details = detailsInput.value;
     currentTaskObject.dueDate = dueDateInput.value;
     currentTaskObject.priority = priorityInput.value;
-    console.log(doneInput.checked);
-    currentTaskObject.doneState = doneInput.checked;
+    currentTaskObject.doneState = doneInput.value;
 
     updateContent();
 }

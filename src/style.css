@@ -70,8 +70,7 @@ body {
 }
 
 #add-project,
-#add-task,
-#add-note {
+#add-task {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -79,15 +78,13 @@ body {
 }
 
 #add-project-button,
-#add-task-button,
-#add-note-button {
+#add-task-button {
     height: 65px;
 }
 
 #task-info-modal,
 #add-task-modal,
-#add-project-modal,
-#add-note-modal {
+#add-project-modal {
     font-size: 2rem;
     border: solid #002aff 5px;
     border-radius: 5px;
@@ -298,4 +295,14 @@ input {
     padding-left: 8px;
     border-radius: 10px;
     color: #484848;
+}
+
+#edit-task-modal {
+    border: solid blue 5px;
+    border-radius: 10px;
+}
+
+#edit-task-modal-done-state-input {
+    width: 20px;
+    height: 30px;
 }
