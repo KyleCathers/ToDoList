@@ -73,4 +73,4 @@ const task = (title, details, dueDate, priority) => {
     return { title, details, dueDate, priority, doneState }
 }
 
-export { projectList, project, task };
+export { projectList, project };

@@ -1,4 +1,4 @@
-import exitModal from './images/exitButton.png'
+import exitModal from './images/exitButton.png';
 
 function createAddTaskModal() {
     const addTaskModal = document.createElement('dialog');
@@ -234,8 +234,13 @@ function clearModals() {
     const addTaskDetailsInput = document.querySelector('#task-modal-details-input');
     addTaskDetailsInput.value = "";
 
+    // get todays date, format to YYYY-MM-DD
+    const today = new Date();
+    let todayString = '';
+    todayString = `${today.getFullYear()}-${(today.getMonth() + 1 < 10) ? '0' : ''}${today.getMonth() + 1}-${today.getDate()}`
+    
     const addTaskDueDateInput = document.querySelector('#task-modal-duedate-input');
-    addTaskDueDateInput.value = "2023-09-11"; //YYYY-MM-DD
+    addTaskDueDateInput.value = todayString;
 
     const addTaskPriorityInput = document.querySelector('#task-modal-priority-input');
     addTaskPriorityInput.value = "Low";
@@ -248,7 +253,8 @@ function clearModals() {
     editTaskDetailsInput.value = "";
 
     const editTaskDueDateInput = document.querySelector('#edit-task-modal-duedate-input');
-    editTaskDueDateInput.value = "2023-09-11"; //YYYY-MM-DD
+    //YYYY-MM-DD
+    editTaskDueDateInput.value = todayString;
 
     const editTaskPriorityInput = document.querySelector('#edit-task-modal-priority-input');
     editTaskPriorityInput.value = "Low";

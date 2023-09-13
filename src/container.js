@@ -3,9 +3,12 @@ import addIcon from './images/addIcon.png';
 import deleteIcon from './images/deleteIcon.png'
 import editIcon from './images/editIcon.png'
 
-import { createAddTaskModal, clearModals, createAddProjectModal, createTaskInfoModal, createEditTaskModal } from './modals.js'
+import { createAddTaskModal, clearModals, createAddProjectModal, 
+    createTaskInfoModal, createEditTaskModal } from './modals.js';
 
-import { projectList, project, task } from './factories.js'
+import { addDays, isAfter } from 'date-fns';
+
+import { projectList, project } from './factories.js';
 
 let selectedProject = 'Home';
 
@@ -24,7 +27,9 @@ function pageInit() {
     const header = document.createElement('div');
     header.setAttribute('id', 'header');
 
-    const headerLogo = document.createElement('div');
+    const headerLogo = document.createElement('a');
+    headerLogo.setAttribute('href', 'https://www.theodinproject.com/');
+    headerLogo.setAttribute('target', '_blank');
     headerLogo.setAttribute('id', 'header-logo');
 
     const headerLogoImg = new Image();
@@ -33,8 +38,10 @@ function pageInit() {
 
     headerLogo.appendChild(headerLogoImg);
 
-    const headerText = document.createElement('div');
+    const headerText = document.createElement('a');
     headerText.setAttribute('id', 'header-text');
+    headerText.setAttribute('href', 'https://www.theodinproject.com/');
+    headerText.setAttribute('target', '_blank');
     headerText.innerText = "To Do List"
 
     header.appendChild(headerLogo);
@@ -186,6 +193,10 @@ function addTask() {
     // go into currently selected project of project list array
     let targetProject = projectList.getProject(selectedProject);
 
+    if((selectedProject == 'Due Today') || (selectedProject == 'Due This Week')) {
+        targetProject = projectList.getProject('Home');
+    }
+
     // add modal details as task to selected project
     targetProject.addTask(titleInput.value, detailsInput.value, dueDateInput.value, priorityInput.value)
 
@@ -256,7 +267,6 @@ function updateMenu() {
 function updateContent() {
     console.log(selectedProject);
 
-    // TODO: if Home project, go through all projects and add to DOM, otherwise only selected project
     // TODO: if 'due today' project, filter Home project by date and update
     // TODO: if 'due this week' project, filter Home project by date and update
 
@@ -264,15 +274,56 @@ function updateContent() {
     mainContentTitle.setAttribute('id', `main-content-title`);
     mainContentTitle.innerText = selectedProject;
 
+    // clear any leftover DOM content
     const mainContent = document.querySelector('#main-content');
     mainContent.innerHTML = "";
     mainContent.appendChild(mainContentTitle);
 
-    // go into currently selected project of project list array
-    let targetProject = projectList.getProject(selectedProject);
+    // if targetProject is home project, iterate through all projects on the list and append
+    if((selectedProject == 'Home') || (selectedProject == 'Due Today') || (selectedProject == 'Due This Week')) {
+        // iterate through all projects
+        projectList.info().forEach(title => {
+            let targetProject = projectList.getProject(title);
+            // add target project tasks to the DOM
+            appendTasks(targetProject);
+        });
 
-    // iterate all tasks of target project and add to DOM
+    } else {
+        // go into currently selected project of project list array
+        let targetProject = projectList.getProject(selectedProject);
+
+        // add target projects task to the DOM
+        appendTasks(targetProject);
+    }
+}
+
+// iterate all tasks of target project and add to DOM
+function appendTasks(targetProject) {
+    // get todays date, format to YYYY-MM-DD
+    const today = new Date();
+    let todayString = '';
+    todayString = `${today.getFullYear()}-${(today.getMonth() + 1 < 10) ? '0' : ''}${today.getMonth() + 1}-${today.getDate()}`
+
+    const mainContent = document.querySelector('#main-content');
+
     targetProject.getTaskObjects().forEach((task) => {
+        if(selectedProject == 'Due Today') {
+            if(task.dueDate != todayString) {
+                return;
+            };
+        } else if(selectedProject == 'Due This Week') {
+            let taskYear = task.dueDate.substr(0,4);
+            let taskMonth = task.dueDate.substr(5,2);
+            let taskDay = task.dueDate.substr(8,2);
+            taskMonth = taskMonth[0] == '0' ? taskMonth[1] : taskMonth;
+            let taskDate = (new Date(taskYear, taskMonth - 1, taskDay));
+            let nextWeekDate = addDays(new Date(), 6); // 1 week from today
+
+            // skip if task.dueDate > nextWeekString e.g. now until sep 18
+            if(isAfter(taskDate, nextWeekDate)) {
+                return;
+            };
+        }
 
         const currentTask = document.createElement('div');
         currentTask.setAttribute('id', task.title);
@@ -296,13 +347,9 @@ function updateContent() {
         taskDetails.setAttribute('id', `${task.title}-details`);
         taskDetails.innerText = "Details";
         // when clicked pull up module with title, details, due date, done sate, priority
-        taskDetails.addEventListener('click', () => {
-            // module.show
-        });
 
         const taskDueDate = document.createElement('div');
         taskDueDate.setAttribute('class', 'task-due-date');
-        //taskDueDate.setAttribute('id', `${task.title}-due-date`);
         taskDueDate.innerText = `Due: ${task.dueDate}`;
 
         const taskDoneState = document.createElement('div');
@@ -363,7 +410,6 @@ function updateContent() {
 
         mainContent.appendChild(currentTask);
     });
-
 }
 
 function editTask() {
