@@ -12,3 +12,5 @@ Form validation for add project, add task, edit task
 		due date in the future
 
 Add local storage
+
+Add responsivity for screen resize/mobile?
