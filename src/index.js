@@ -1,7 +1,12 @@
-import './style.css';
+import "./style.css";
 
-import { pageInit, updateContent } from './container';
+import { pageInit, updateContent, updateMenu, loadFromLocal } from "./container";
 
 document.body.appendChild(pageInit());
 
+// grab any exisitng local storage
+loadFromLocal();
+
+// update DOM with exisitng data
 updateContent();
+updateMenu();

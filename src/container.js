@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { addDays, isAfter } from "date-fns";
 import headerIcon from "./images/checklist.png";
 import addIcon from "./images/addIcon.png";
@@ -187,7 +188,78 @@ function pageInit() {
   return container;
 }
 
+// display all tasks of selected project
+function updateContent() {
+  const mainContentTitle = document.createElement("div");
+  mainContentTitle.setAttribute("id", "main-content-title");
+  mainContentTitle.innerText = selectedProject;
+
+  // clear any leftover DOM content
+  const mainContent = document.querySelector("#main-content");
+  mainContent.innerHTML = "";
+  mainContent.appendChild(mainContentTitle);
+
+  // if targetProject is home project, iterate through all projects on the list and append
+  if (
+    selectedProject === "Home" ||
+    selectedProject === "Due Today" ||
+    selectedProject === "Due This Week"
+  ) {
+    // iterate through all projects
+    projectList.info().forEach((title) => {
+      const targetProject = projectList.getProject(title);
+      // add target project tasks to the DOM
+      appendTasks(targetProject);
+    });
+  } else {
+    // go into currently selected project of project list array
+    const targetProject = projectList.getProject(selectedProject);
+
+    // add target projects task to the DOM
+    appendTasks(targetProject);
+  }
+}
+
+// update menu with custom project
+function updateMenu() {
+  const customTasks = document.querySelector("#custom-project");
+  customTasks.innerHTML = "";
+
+  projectList.info().forEach((title) => {
+    if (title === "Home") return; // skip adding Home project since it's a default
+
+    const projectItem = document.createElement("div");
+    projectItem.setAttribute("class", "custom-project-item");
+
+    const projectText = document.createElement("div");
+    projectText.setAttribute("id", title);
+    projectText.setAttribute("class", "click");
+    projectText.innerText = title;
+    projectText.addEventListener("click", () => {
+      selectedProject = title;
+      updateContent();
+    });
+
+    const projectDelete = new Image();
+    projectDelete.src = deleteIcon;
+    projectDelete.setAttribute("id", `delete${title}`);
+    projectDelete.setAttribute("class", "delete click");
+    projectDelete.addEventListener("click", () => {
+      projectList.removeProject(title);
+      // TODO: if current project is the one deleted, display Home project in main content
+      saveToLocal();
+      updateMenu();
+    });
+
+    projectItem.appendChild(projectText);
+    projectItem.appendChild(projectDelete);
+
+    customTasks.appendChild(projectItem);
+  });
+}
+
 // add a new task to selectedProject
+// should update local storage
 function addTask() {
   // get info from modal
   const titleInput = document.querySelector("#task-modal-title-input");
@@ -210,6 +282,9 @@ function addTask() {
     priorityInput.value,
   );
 
+  // save changes to local storage
+  saveToLocal();
+
   updateContent();
 
   // new listener added every time submit button is clicked, remove here
@@ -218,6 +293,7 @@ function addTask() {
 }
 
 // add a new project to the master project list
+// should update local storage
 function addProject() {
   const titleInput = document.querySelector("#project-modal-title-input");
   const newProject = project(titleInput.value);
@@ -230,83 +306,11 @@ function addProject() {
   );
   addProjectSubmitButton.removeEventListener("click", addProject);
 
+  // save changes to local storage
+  saveToLocal();
+
   // refresh menu DOM since new project is added
   updateMenu();
-}
-
-// update menu with custom project
-function updateMenu() {
-  const customTasks = document.querySelector("#custom-project");
-  customTasks.innerHTML = "";
-
-  projectList.info().forEach((title) => {
-    if (title === "Home") return; // skip adding Home project since it's a default
-
-    const projectItem = document.createElement("div");
-    projectItem.setAttribute("class", "custom-project-item");
-
-    const projectText = document.createElement("div");
-    projectText.setAttribute("id", title);
-    projectText.setAttribute("class", "click");
-    projectText.innerText = title;
-    projectText.addEventListener("click", () => {
-      selectedProject = title;
-      console.log(selectedProject);
-      updateContent();
-    });
-
-    const projectDelete = new Image();
-    projectDelete.src = deleteIcon;
-    projectDelete.setAttribute("id", `delete${title}`);
-    projectDelete.setAttribute("class", "delete click");
-    projectDelete.addEventListener("click", () => {
-      projectList.removeProject(title);
-      // TODO: if current project is the one deleted, display Home project in main content
-      updateMenu();
-    });
-
-    projectItem.appendChild(projectText);
-    projectItem.appendChild(projectDelete);
-
-    customTasks.appendChild(projectItem);
-  });
-}
-
-// display all tasks of selected project
-function updateContent() {
-  console.log(selectedProject);
-
-  // TODO: if 'due today' project, filter Home project by date and update
-  // TODO: if 'due this week' project, filter Home project by date and update
-
-  const mainContentTitle = document.createElement("div");
-  mainContentTitle.setAttribute("id", "main-content-title");
-  mainContentTitle.innerText = selectedProject;
-
-  // clear any leftover DOM content
-  const mainContent = document.querySelector("#main-content");
-  mainContent.innerHTML = "";
-  mainContent.appendChild(mainContentTitle);
-
-  // if targetProject is home project, iterate through all projects on the list and append
-  if (
-    selectedProject == "Home" ||
-    selectedProject == "Due Today" ||
-    selectedProject == "Due This Week"
-  ) {
-    // iterate through all projects
-    projectList.info().forEach((title) => {
-      const targetProject = projectList.getProject(title);
-      // add target project tasks to the DOM
-      appendTasks(targetProject);
-    });
-  } else {
-    // go into currently selected project of project list array
-    const targetProject = projectList.getProject(selectedProject);
-
-    // add target projects task to the DOM
-    appendTasks(targetProject);
-  }
 }
 
 // iterate all tasks of target project and add to DOM
@@ -371,7 +375,10 @@ function appendTasks(targetProject) {
     taskDoneState.setAttribute("id", `${task.title}-done-state`);
     taskDoneState.innerText = task.doneState ? "Done" : "Not Done";
     taskDoneState.addEventListener("click", () => {
+      // eslint-disable-next-line no-param-reassign
       task.doneState = !task.doneState;
+      // save changes to local storage
+      saveToLocal();
       updateContent();
     });
 
@@ -407,6 +414,7 @@ function appendTasks(targetProject) {
     // when clicked pull up module with title, details, due date, done state, priority
     deleteButton.addEventListener("click", () => {
       targetProject.removeTask(task.title);
+      saveToLocal();
       updateContent();
     });
 
@@ -439,9 +447,76 @@ function editTask() {
   currentTaskObject.details = detailsInput.value;
   currentTaskObject.dueDate = dueDateInput.value;
   currentTaskObject.priority = priorityInput.value;
-  currentTaskObject.doneState = doneInput.value;
+  currentTaskObject.doneState = doneInput.checked;
+
+  // save changes to local storage
+  saveToLocal();
 
   updateContent();
 }
 
-export { pageInit, updateContent };
+function saveToLocal() {
+  console.log('Save to local...');
+
+  const data = [];
+
+  const projectTitlesArray = projectList.info();
+
+  projectTitlesArray.forEach(title => {
+    const currentProject = projectList.getProject(title);
+
+    const projectTasksArray = [];
+
+    const projectTasks = currentProject.getTaskObjects();
+
+    projectTasks.forEach(task => {
+      const taskString = JSON.stringify(task);
+      projectTasksArray.push(taskString);
+    });
+
+    const prodObj = {"projectTitle":title,"data":projectTasksArray};
+
+    data.push(prodObj);
+  });
+
+  const dataString = JSON.stringify(data);
+
+  localStorage.setItem('projectList', dataString);
+}
+
+function loadFromLocal() {
+  console.log('Loading from local...');
+
+  const data = localStorage.getItem('projectList');
+
+  if (data === null) {
+    return;
+  }
+
+  const dataString = JSON.parse(data);
+
+  dataString.forEach(projectItem => {
+    let currentProject = projectList.getProject('Home');  // default home
+
+    // add current project to project list array
+    if(projectItem.projectTitle !== 'Home') {
+      currentProject = project(projectItem.projectTitle);
+
+      projectList.addProject(currentProject);
+    }
+
+    // add tasks to current project
+    projectItem.data.forEach(task => {
+      const taskObject = JSON.parse(task);  // convert string to obj
+
+      // create task out of retrieved task object
+      currentProject.addTask(taskObject.title, taskObject.details, taskObject.dueDate, 
+        taskObject.priority, taskObject.doneState);
+    });
+  });
+
+
+
+}
+
+export { pageInit, updateContent, updateMenu, loadFromLocal };
