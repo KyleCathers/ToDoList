@@ -2,7 +2,4 @@
 
 To Do List Project from TOP
 
-Work to do:
-Form validation for add task, edit task
-
-Add responsivity for screen resize/mobile?
+Todo later ? Add media responsitivity for mobile (e.g. dropdown menu)

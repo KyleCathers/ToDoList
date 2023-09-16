@@ -22,6 +22,7 @@ function createAddTaskModal() {
   const titleInput = document.createElement("input");
   titleInput.setAttribute("id", "task-modal-title-input");
   titleInput.setAttribute("type", "text");
+  titleInput.setAttribute("maxlength", "17");
   titleInput.required = true;
 
   titleRow.appendChild(titleLabel);
@@ -261,7 +262,6 @@ function clearModals() {
     "#edit-task-modal-title-input",
   );
   editTaskTitleInput.value = "";
-  editTaskTitleInput.required = true;
 
   const editTaskDetailsInput = document.querySelector(
     "#edit-task-modal-details-input",
@@ -307,6 +307,8 @@ function createEditTaskModal() {
   const titleInput = document.createElement("input");
   titleInput.setAttribute("id", "edit-task-modal-title-input");
   titleInput.setAttribute("type", "text");
+  titleInput.setAttribute("maxlength", "17");
+  titleInput.required = true;
 
   titleRow.appendChild(titleLabel);
   titleRow.appendChild(titleInput);
