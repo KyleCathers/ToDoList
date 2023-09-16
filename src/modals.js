@@ -22,6 +22,7 @@ function createAddTaskModal() {
   const titleInput = document.createElement("input");
   titleInput.setAttribute("id", "task-modal-title-input");
   titleInput.setAttribute("type", "text");
+  titleInput.required = true;
 
   titleRow.appendChild(titleLabel);
   titleRow.appendChild(titleInput);
@@ -50,6 +51,7 @@ function createAddTaskModal() {
   const dueDateInput = document.createElement("input");
   dueDateInput.setAttribute("id", "task-modal-duedate-input");
   dueDateInput.setAttribute("type", "date");
+  dueDateInput.required = true;
 
   dueDateRow.appendChild(dueDateLabel);
   dueDateRow.appendChild(dueDateInput);
@@ -132,6 +134,7 @@ function createAddProjectModal() {
   const titleInput = document.createElement("input");
   titleInput.setAttribute("type", "text");
   titleInput.setAttribute("id", "project-modal-title-input");
+  titleInput.required = true;
 
   row1.appendChild(titleLabel);
   row1.appendChild(titleInput);
@@ -258,6 +261,7 @@ function clearModals() {
     "#edit-task-modal-title-input",
   );
   editTaskTitleInput.value = "";
+  editTaskTitleInput.required = true;
 
   const editTaskDetailsInput = document.querySelector(
     "#edit-task-modal-details-input",
@@ -331,6 +335,7 @@ function createEditTaskModal() {
   const dueDateInput = document.createElement("input");
   dueDateInput.setAttribute("id", "edit-task-modal-duedate-input");
   dueDateInput.setAttribute("type", "date");
+  dueDateInput.required = true;
 
   dueDateRow.appendChild(dueDateLabel);
   dueDateRow.appendChild(dueDateInput);

@@ -267,6 +267,12 @@ function addTask() {
   const dueDateInput = document.querySelector("#task-modal-duedate-input");
   const priorityInput = document.querySelector("#task-modal-priority-input");
 
+  if(titleInput.value === "") {
+    return;
+  } if(dueDateInput.value === "") {
+    return;
+  }
+
   // go into currently selected project of project list array
   let targetProject = projectList.getProject(selectedProject);
 
@@ -296,6 +302,9 @@ function addTask() {
 // should update local storage
 function addProject() {
   const titleInput = document.querySelector("#project-modal-title-input");
+  if (titleInput.value === "") {
+    return;
+  }
   const newProject = project(titleInput.value);
 
   projectList.addProject(newProject);
@@ -442,6 +451,14 @@ function editTask() {
   );
   const doneInput = document.querySelector("#edit-task-modal-done-state-input");
 
+  if(titleInput.value === "") {
+    return;
+  }
+  
+  if(dueDateInput.value === "") {
+    return;
+  }
+
   // add modal details as task to selected project
   currentTaskObject.title = titleInput.value;
   currentTaskObject.details = detailsInput.value;
@@ -456,8 +473,6 @@ function editTask() {
 }
 
 function saveToLocal() {
-  console.log('Save to local...');
-
   const data = [];
 
   const projectTitlesArray = projectList.info();
@@ -485,8 +500,6 @@ function saveToLocal() {
 }
 
 function loadFromLocal() {
-  console.log('Loading from local...');
-
   const data = localStorage.getItem('projectList');
 
   if (data === null) {
@@ -514,9 +527,6 @@ function loadFromLocal() {
         taskObject.priority, taskObject.doneState);
     });
   });
-
-
-
 }
 
 export { pageInit, updateContent, updateMenu, loadFromLocal };
